@@ -1,6 +1,8 @@
 
 const GroupMaster = require('../../../models/AccountInformationModels/FinicialGroupModels');
+const { Op } = require("sequelize");
 const groupmasterController = {
+
 //get the all the records from database.
 getAllGroups: async (req, res) => {
     try {
@@ -12,24 +14,32 @@ getAllGroups: async (req, res) => {
     }
   },
 
-//get the particular record from the databse by group_Code.
+//get data by one or multiple conditions
   getGroupById: async (req, res) => {
-    const group_Code = req.params.id;
+    const {group_Code,Company_Code} = req.query;
+    console.log(group_Code,Company_Code)
     try {
-      const group = await GroupMaster.findOne({
-        where: { group_Code },
+      const group = await GroupMaster.findAll({
+        where: {
+          [Op.and]: [
+            { group_Code },
+            { Company_Code },
+           
+          ]
+        }
       });
-
+  
       if (!group) {
-        return res.status(404).json({ error: 'Group not found' });
+        return res.status(404).json({ error: 'No matching record found' });
       }
-
+  
       res.json(group);
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: 'Internal server error' });
     }
   },
-
+  
 //Insert or post data into database.
   createGroup: async (req, res) => {
     const {
@@ -64,13 +74,9 @@ getAllGroups: async (req, res) => {
     }
   },
 
-
-  
 //update record in database by group_Code
 updateGroup: async (req, res) => {
-  const group_Code = req.params.id; 
-
-  console.log(group_Code)
+  const {group_Code} = req.query; 
   const {
     group_Name_E,
     group_Name_R,
@@ -112,10 +118,9 @@ console.log(updatedGroup)
   }
 },
 
-
 //delete record from database by group_Code
   deleteGroup: async (req, res) => {
-    const group_Code = req.params.id;
+    const {group_Code} = req.query;
 
     try {
       const deletedRows = await GroupMaster.destroy({

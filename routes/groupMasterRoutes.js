@@ -4,9 +4,8 @@ const getSingleRecord  = require('../Controllers/Common/NavigationApi') ;
 
 const router = express.Router();
 router.get('/', GroupMasterControllers.getAllGroups);
-router.get('/singlerecord',getSingleRecord);
-router.get('/:id', GroupMasterControllers.getGroupById);
-router.post('/', GroupMasterControllers.createGroup);
-router.put('/:id', GroupMasterControllers.updateGroup);
-router.delete('/:id', GroupMasterControllers.deleteGroup);
+router.get('/getsinglerecord', GroupMasterControllers.getGroupById);
+router.post('/postgroupmaster', GroupMasterControllers.createGroup);
+router.put('/updategroupmaster', GroupMasterControllers.updateGroup);
+router.delete('/deletegroupmaster', GroupMasterControllers.deleteGroup);
 module.exports = router;

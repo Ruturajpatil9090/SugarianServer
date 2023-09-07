@@ -18,6 +18,7 @@ sequelize.sync({ force: false }).then(() => {
 // Use company routes
 app.use('/groupmaster',GroupMaster);
 
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
