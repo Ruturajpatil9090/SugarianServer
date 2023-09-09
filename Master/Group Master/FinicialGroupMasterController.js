@@ -1,15 +1,14 @@
 
-const GroupMaster = require('../../../models/AccountInformationModels/FinicialGroupModels');
-const { Op } = require("sequelize");
-const groupmasterController = {
+const GroupMaster = require('./FinicialGroupMasterModels');
+const { Op } = require('sequelize');
 
+const groupmasterController = {
 //get the all the records from database.
 getAllGroups: async (req, res) => {
     try {
       const groups = await GroupMaster.findAll();
       res.json(groups);
     } catch (error) {
-      console.error(error);
       res.status(500).json({ error: 'Internal server error',error });
     }
   },
@@ -87,8 +86,7 @@ updateGroup: async (req, res) => {
     Created_By,
     Modified_By
   } = req.body;
-  console.log(req.body)
-  console.log(group_Code)
+
   try {
     const updatedGroup = await GroupMaster.update(
       {      
@@ -106,14 +104,12 @@ updateGroup: async (req, res) => {
         where:{ group_Code},
       }
     );
-console.log(updatedGroup)
     if (updatedGroup[0] === 0) {
       return res.status(404).json({ error: 'Group not found' });
     }
 
     res.json({ message: 'Group updated successfully' });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: 'Internal server error', error });
   }
 },
