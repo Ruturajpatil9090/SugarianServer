@@ -1,7 +1,8 @@
 const express = require('express');
 const GroupMasterControllers = require('../Master/Group Master/FinicialGroupMasterController');
 const DeliveryOrderController = require('../SugarRelated/Delivery Order/DeliverOrderController');
-const headDetailController = require('../HeadDetail/HeadDetailController')
+//const headDetailController = require('../HeadDetail/HeadDetailController');
+const HeadDoDetailController =require("../HeadDetail/HeadDoDetailController");
 
 
 const router = express.Router();
@@ -16,11 +17,18 @@ router.delete('/deletegroupmaster', GroupMasterControllers.deleteGroup);
 router.get('/delivery', DeliveryOrderController.getAll);
 router.get('/getone', DeliveryOrderController.getOne);
 router.post('/postdeliveryorder', DeliveryOrderController.InsertDeliveryOrder);
+router.post('/insertheaddetail', DeliveryOrderController.insertHeadDetail);
 router.put('/updatedeliveryorder', DeliveryOrderController.UpdateDeliveryOrder);
 router.delete('/deletedeliveryorder', DeliveryOrderController.deleteDeliveryOrder);
+router.post('/insertmultiple', DeliveryOrderController.insertHeadDetailMultiple);
 
-//HeadDetail Route
-router.post('/insertheaddetail', headDetailController.insertHeadDetail);
+//DoDetail Route
+//  router.post('/insert', headDetailController.insertHeadDetail);
+//  router.put('/updateheaddetail', headDetailController.updateHeadDetail);
+//  router.delete('/deleteheaddetail', headDetailController.deleteHeadDetail);
 
+
+ //headdodetailController
+ router.post('/loaddatado', HeadDoDetailController.postData);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../config/database');
+const sequelize = require('../config/database');
 
-const DeliveryOrder = sequelize.define('nt_1_deliveryorder', {
+const Head = sequelize.define('nt_1_deliveryorder', {
   tran_type: {
     type: DataTypes.STRING(2),
     //allowNull: true,
@@ -746,8 +746,6 @@ SB_Other_Amount: {
   timestamps: false,
   freezeTableName: true, 
 });  
-
-//DOdetails models
 const Detail = sequelize.define('nt_1_dodetails', {
   doc_no: {
     type: DataTypes.INTEGER,
@@ -822,11 +820,10 @@ UtrCompanyCode: {
   timestamps: false, 
   freezeTableName: true, 
 });
-
 // Define the association
-Detail.belongsTo(DeliveryOrder, { foreignKey: 'doid' });
+// Head.hasMany(Detail, { foreignKey: 'headId' });
+Detail.belongsTo(Head, { foreignKey: 'doid' });
 
 Detail.removeAttribute('id');
-
-DeliveryOrder.removeAttribute('id');
-module.exports = { DeliveryOrder, Detail };
+Head.removeAttribute('id');
+module.exports = { Head, Detail };

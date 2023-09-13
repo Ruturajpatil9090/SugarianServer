@@ -12,9 +12,7 @@ const sequelize = new Sequelize({
         options: {
             encrypt: true,
             trustedConnection: true,
-            enableArithAbort: true,
-           
-            
+            enableArithAbort: true,   
         }
     }
 });
