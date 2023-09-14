@@ -29,6 +29,9 @@ router.post('/insertmultiple', DeliveryOrderController.insertHeadDetailMultiple)
 
 
  //headdodetailController
- router.post('/loaddatado', HeadDoDetailController.postData);
+ router.get('/getcombinedata', HeadDoDetailController.getCombinedData);
+ router.get('/getdata', HeadDoDetailController.getOne);
+router.post('/loaddatado', HeadDoDetailController.postData);
+router.put('/updatehead', HeadDoDetailController.updateHeadData);
 
 module.exports = router;

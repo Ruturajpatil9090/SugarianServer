@@ -827,3 +827,5 @@ Detail.belongsTo(Head, { foreignKey: 'doid' });
 Detail.removeAttribute('id');
 Head.removeAttribute('id');
 module.exports = { Head, Detail };
+
+  

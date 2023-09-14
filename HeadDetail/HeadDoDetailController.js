@@ -1,161 +1,159 @@
 const { Head, Detail } = require("./HeadDoDetailModels");
 const sequelize = require("../config/database");
 const HeadDetailController = {
-
-  postData: async (req, res) => {
-    let transaction;
+//get data into both the tables in head and detail
+  getCombinedData: async (req, res) => {
+    const { doid } = req.query;
     try {
-      const { headData, detailData } = req.body;
-  
-      // Start a Sequelize transaction
-      transaction = await sequelize.transaction();
-  
-      // Create the head record within the transaction
-      const createdHead = await Head.create(headData, { transaction });
-  
-      const addedDetails = [];
-      const updatedDetails = [];
-      const deletedDetails = [];
-  
-      for (const item of detailData) {
-        item.doidData = createdHead.doid;
-  
-        if (item.rowaction === 'add') {
-          addedDetails.push(item);
-        } else if (item.rowaction === 'update') {
-          updatedDetails.push(item);
-        } else if (item.rowaction === 'delete') {
-          deletedDetails.push(item.doid);
-        }
-      }
-  
-      // Insert new details within the transaction
-      const createdDetails = await Promise.all(
-        addedDetails.map(async (item) => await Detail.create(item, { transaction }))
-      );
-  
-      for (const item of updatedDetails) {
-        const { doidData, ...updateData } = item; // Exclude headId from updateData
-        await Detail.update(updateData, { where: { doid: item.doid } });
-      }
-  
-      // Delete details within the transaction
-      await Detail.destroy({ where: { doid: deletedDetails }, transaction });
-  
-      // Commit the transaction if all operations are successful
-      await transaction.commit();
-  
-      res.status(201).json({
-        message: 'Data Inserted successfully',
-        head: createdHead,
-        addedDetails: createdDetails,
-        updatedDetails: updatedDetails,
-        deletedDetailIds: deletedDetails,
-      });
+        const DataDoDetail = await Detail.findAll({ where: { doid } });
+        const DataDeliveryOrder = await Head.findAll({ where: { doid } });
+
+        const combinedData = {
+            headData: DataDeliveryOrder,
+            detailData: DataDoDetail,
+        };
+
+        res.json(combinedData);
+        console.log(doid);
     } catch (error) {
-      console.error(error);
-  
-      // Roll back the transaction if any operation fails
-      if (transaction) {
-        await transaction.rollback();
-      }
-  
-      res.status(500).json({ error: 'Internal server error', message: error.message });
+        res.status(500).json({ error: 'Internal server error', error });
+        console.log(error);
     }
-  },
-  
-  
-  
-  // insertHeadDetail: async (req, res) => {
-  //   try {
-  //     const { headData, detailData } = req.body;
-  //     const createdHead = await Head.create(headData);
-  //     const addedDetails = [];
-  //     const updatedDetails = [];
-  //     const deletedDetails = [];
+},
 
-  //     for (const item of detailData) {
-  //       item.headId = createdHead.id;
+  //get single record from database
+      getOne: async (req, res) => {
+        const { doid } = req.query;
+        try {
+            const DataDoDetail = await Detail.findAll({ where: { doid } });
+            res.json(DataDoDetail);
+            console.log(doid)
+        } catch (error) {
+            res.status(500).json({ error: 'Internal server error', error });
+            console.log(error)
+        }
+    },
 
-  //       if (item.rowaction === 'add') {
-  //         addedDetails.push(item);
-  //       } else if (item.rowaction === 'update') {
-  //         updatedDetails.push(item);
-  //       } else if (item.rowaction === 'delete') {
-  //         deletedDetails.push(item.id);
-  //       }
-  //     }
+    //insert data into table
+    postData: async (req, res) => {
+      const transaction = await sequelize.transaction();
+    
+      try {
+        const { headData, detailData } = req.body;
+        const createdHead = await Head.create(headData, { transaction });
+    
+        const addedDetails = [];
+        const updatedDetails = [];
+        const deletedDetails = [];
+        let createdDetails = []; 
+    
+        // Check if desp_type is "DI" to decide whether to save details
+        if (createdHead.desp_type === "DI") {
+          for (const item of detailData) {
+            if (item.rowaction === "add") {
+              item.doid = createdHead.doid;
+              addedDetails.push(item);
+            } else if (item.rowaction === "update") {
+              updatedDetails.push(item);
+            } else if (item.rowaction === "delete") {
+              deletedDetails.push(item.doid);
+            }
+          }
+    
+          //Add Details
+          createdDetails = await Promise.all(
+            addedDetails.map(async (item) => {
+              return await Detail.create(item, { transaction });
+            })
+          );
+    
+          //Update Details
+          for (const item of updatedDetails) {
+            await Detail.update(item, {
+              where: { doid: item.doid },
+              transaction,
+            });
+          }
+    
+          // Delete details
+          await Detail.destroy({
+            where: { doid: deletedDetails },
+            transaction,
+          });
+        }
+    
+       
+        await transaction.commit();
+    
+        res.status(201).json({
+          message: "Data Inserted successfully",
+          head: createdHead,
+          addedDetails: createdDetails, 
+          updatedDetails,
+          deletedDetailIds: deletedDetails,
+        });
+      } catch (error) {
+        console.error(error);
+        await transaction.rollback();
+    
+        res
+          .status(500)
+          .json({ error: "Internal server error", message: error.message });
+      }
+    },
+    
+//Update the data
+  updateHeadData: async (req, res) => {
+    const transaction = await sequelize.transaction();
 
-  //     // Insert new details
-  //     const createdDetails = await Promise.all(
-  //       addedDetails.map(async (item) => await Detail.create(item))
-  //     );
-
-  //     // Update existing details
-  //     for (const item of updatedDetails) {
-  //       await Detail.update(item, { where: { id: item.id } });
-  //     }
-
-  //     // Delete details
-  //     await Detail.destroy({ where: { id: deletedDetails } });
-
-  //     res.status(201).json({
-  //       message: 'Data Inserted successfully',
-  //       head: createdHead,
-  //       addedDetails: createdDetails,
-  //       updatedDetails: updatedDetails,
-  //       deletedDetailIds: deletedDetails,
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //     res.status(500).json({ error: 'Internal server error', message: error.message });
-  //     console.log(error);
-  //   }
-  // },
-
-  updateHeadDetail: async (req, res) => {
     try {
       const { headData, detailData } = req.body;
-
-      if (!headData.id) {
-        return res.status(400).json({
-          error: "Bad request",
-          message: "Head ID is required for updating.",
-        });
-      }
-
-      const updatedHead = await Head.update(headData, {
-        where: { id: headData.id },
-      });
+      const {doid}  =req.query;
+      const updatedHead= await Head.update(headData, {
+        where:{
+          doid
+        }
+      },{transaction:transaction});
 
       const addedDetails = [];
       const updatedDetails = [];
       const deletedDetails = [];
 
       for (const item of detailData) {
-        item.headId = headData.id;
-
         if (item.rowaction === "add") {
+          item.doid = doid;
           addedDetails.push(item);
         } else if (item.rowaction === "update") {
           updatedDetails.push(item);
         } else if (item.rowaction === "delete") {
-          deletedDetails.push(item.id);
+          deletedDetails.push(item.dodetailid);
         }
       }
-
+      //Add Details
       const createdDetails = await Promise.all(
-        addedDetails.map(async (item) => await Detail.create(item))
+        addedDetails.map(async (item) => {
+          return await Detail.create(item, { transaction: transaction });
+        })
       );
-
+      //Update Details
       for (const item of updatedDetails) {
-        await Detail.update(item, { where: { id: item.id } });
+        await Detail.update(item, {
+          where: { dodetailid: item.dodetailid }, 
+          transaction: transaction,
+        });
       }
 
-      await Detail.destroy({ where: { id: deletedDetails } });
+      // Delete details
+      await Detail.destroy({
+        where: { dodetailid: deletedDetails },
+        transaction: transaction,
+      });
 
-      res.status(200).json({
-        message: "Data Updated successfully",
+      // Commit the transaction if all operations are successful
+      await transaction.commit();
+
+      res.status(201).json({
+        message: "Data Inserted successfully",
         head: updatedHead,
         addedDetails: createdDetails,
         updatedDetails: updatedDetails,
@@ -163,10 +161,13 @@ const HeadDetailController = {
       });
     } catch (error) {
       console.error(error);
+
+      // Roll back the transaction if any operation fails
+      await transaction.rollback();
+
       res
         .status(500)
         .json({ error: "Internal server error", message: error.message });
-      console.log(error);
     }
   },
 
