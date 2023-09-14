@@ -1,19 +1,19 @@
-const { Head, Detail } = require("./HeadDoDetailModels");
-const sequelize = require("../config/database");
-const HeadDetailController = {
+const { Head, Detail } = require("../SugarPurchaseModels");
+const sequelize = require("../../config/database");
+const SugarPurchaseController = {
   //get data into both the tables in head and detail
   getCombinedData: async (req, res) => {
-    const { doid } = req.query;
+    const { purchaseid } = req.query;
     try {
-      const DataDoDetail = await Detail.findAll({ where: { doid } });
-      const DataHead = await Head.findAll({ where: { doid } });
+      const DataDoDetail = await Detail.findAll({ where: { purchaseid } });
+      const DataHead = await Head.findAll({ where: { purchaseid } });
 
       const combinedData = {
         headData: DataHead,
         detailData: DataDoDetail,
       };
       res.json(combinedData);
-      console.log(doid);
+      console.log(purchaseid);
     } catch (error) {
       res.status(500).json({ error: "Internal server error", error });
       console.log(error);
@@ -22,11 +22,11 @@ const HeadDetailController = {
 
   //get single record from database
   getOne: async (req, res) => {
-    const { doid } = req.query;
+    const { purchaseid } = req.query;
     try {
-      const DataDoDetail = await Detail.findAll({ where: { doid } });
-      res.json(DataDoDetail);
-      console.log(doid);
+      const HeadData = await Head.findAll({ where: { purchaseid } });
+      res.json(HeadData);
+      console.log(purchaseid);
     } catch (error) {
       res.status(500).json({ error: "Internal server error", error });
       console.log(error);
@@ -35,7 +35,7 @@ const HeadDetailController = {
 
 
   //insert data into table
-  postData: async (req, res) => {
+  InsertSugarPurchase: async (req, res) => {
     const transaction = await sequelize.transaction();
 
     try {
@@ -47,16 +47,14 @@ const HeadDetailController = {
       const deletedDetails = [];
       let createdDetails = [];
 
-      // Check if desp_type is "DI" to decide whether to save details
-      if (createdHead.desp_type === "DI") {
         for (const item of detailData) {
           if (item.rowaction === "add") {
-            item.doid = createdHead.doid;
+            item.purchaseid = createdHead.purchaseid;
             addedDetails.push(item);
           } else if (item.rowaction === "update") {
             updatedDetails.push(item);
           } else if (item.rowaction === "delete") {
-            deletedDetails.push(item.doid);
+            deletedDetails.push(item.purchaseid);
           }
         }
 
@@ -70,17 +68,17 @@ const HeadDetailController = {
         //Update Details
         for (const item of updatedDetails) {
           await Detail.update(item, {
-            where: { doid: item.doid },
+            where: { purchaseid: item.purchaseid },
             transaction,
           });
         }
 
         // Delete details
         await Detail.destroy({
-          where: { doid: deletedDetails },
+          where: { purchaseid: deletedDetails },
           transaction,
         });
-      }
+      
 
       await transaction.commit();
 
@@ -104,17 +102,17 @@ const HeadDetailController = {
 
 
   //Update the data
-  updateHeadData: async (req, res) => {
+  UpdateSugarPurchase: async (req, res) => {
     const transaction = await sequelize.transaction();
 
     try {
       const { headData, detailData } = req.body;
-      const { doid } = req.query;
+      const { purchaseid } = req.query;
       const updatedHead = await Head.update(
         headData,
         {
           where: {
-            doid,
+            purchaseid,
           },
         },
         { transaction: transaction }
@@ -126,12 +124,12 @@ const HeadDetailController = {
 
       for (const item of detailData) {
         if (item.rowaction === "add") {
-          item.doid = doid;
+          item.purchaseid = purchaseid;
           addedDetails.push(item);
         } else if (item.rowaction === "update") {
           updatedDetails.push(item);
         } else if (item.rowaction === "delete") {
-          deletedDetails.push(item.dodetailid);
+          deletedDetails.push(item.purchasedetailid);
         }
       }
       //Add Details
@@ -142,17 +140,17 @@ const HeadDetailController = {
       );
       //Update Details
       for (const item of updatedDetails) {
-        const dodetailid = item.dodetailid;
-        delete item.dodetailid;
+        const purchasedetailid = item.purchasedetailid;
+        delete item.purchasedetailid;
         await Detail.update(item, {
-          where: { dodetailid: dodetailid },
+          where: { purchasedetailid: purchasedetailid },
           transaction: transaction,
         });
       }
 
       // Delete details
       await Detail.destroy({
-        where: { dodetailid: deletedDetails },
+        where: { purchasedetailid: deletedDetails },
         transaction: transaction,
       });
 
@@ -178,42 +176,6 @@ const HeadDetailController = {
     }
   },
 
-  
-  // //delete the headDetail record all
-  // deleteHeadDetail: async (req, res) => {
-  //   try {
-  //     const { headId } = req.body;
-  //     if (!headId) {
-  //       return res.status(400).json({
-  //         error: "Bad request",
-  //         message: "Head ID is required for deletion.",
-  //       });
-  //     }
-  //     const deletedHeadCount = await Head.destroy({
-  //       where: { id: headId },
-  //     });
-
-  //     if (deletedHeadCount === 0) {
-  //       return res
-  //         .status(404)
-  //         .json({ error: "Not found", message: "Head not found." });
-  //     }
-
-  //     // Delete associated details
-  //     await Detail.destroy({ where: { headId } });
-
-  //     res.status(200).json({
-  //       message: "Head and details records deleted successfully",
-  //       deletedHeadId: headId,
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //     res
-  //       .status(500)
-  //       .json({ error: "Internal server error", message: error.message });
-  //     console.log(error);
-  //   }
-  // },
 };
 
-module.exports = HeadDetailController;
+module.exports = SugarPurchaseController;

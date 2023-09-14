@@ -485,44 +485,6 @@ const DeliveryOrderController = {
         }
       },
 
-      //multiple conditions
-      insertHeadDetailMultiple: async (req, res) => {
-        try {
-          const { headData, detailData } = req.body;
-
-          const createdHead = await DeliveryOrder.create(headData);
-
-          detailData.forEach(async (item) => {
-            item.doid = createdHead.doid;
-            switch (item.RowAction) {
-              case "A":  
-                await Detail.create(item);
-                break;
-              case "E": 
-                if (item.dodetailid) {
-                  await Detail.update(item, {
-                    where: { dodetailid: item.dodetailid },
-                  });
-                }
-                break;
-              case "D": 
-                if (item.dodetailid) {
-                  await Detail.destroy({
-                    where: { dodetailid: item.dodetailid },
-                  });
-                }
-                break;
-              default:
-                break;
-            }
-          });
-          res.status(201).json({ message: 'Data Inserted successfully', head: createdHead,detail:detailData });
-        } catch (error) {
-          console.error(error);
-          res.status(500).json({ error: 'Internal server error', message: error.message });
-          console.log(error);
-        }
-      },
 
 };
 module.exports = DeliveryOrderController;

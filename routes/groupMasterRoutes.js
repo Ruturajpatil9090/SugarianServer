@@ -3,6 +3,7 @@ const GroupMasterControllers = require('../Master/Group Master/FinicialGroupMast
 const DeliveryOrderController = require('../SugarRelated/Delivery Order/DeliverOrderController');
 //const headDetailController = require('../HeadDetail/HeadDetailController');
 const HeadDoDetailController =require("../HeadDetail/HeadDoDetailController");
+const SugarPurchaseController = require('../Inword/SugarPurchase/SugarPurchaseController')
 
 
 const router = express.Router();
@@ -12,7 +13,6 @@ router.post('/postgroupmaster', GroupMasterControllers.createGroup);
 router.put('/updategroupmaster', GroupMasterControllers.updateGroup);
 router.delete('/deletegroupmaster', GroupMasterControllers.deleteGroup);
 
-
 //Delivery Order Routes
 router.get('/delivery', DeliveryOrderController.getAll);
 router.get('/getone', DeliveryOrderController.getOne);
@@ -20,7 +20,6 @@ router.post('/postdeliveryorder', DeliveryOrderController.InsertDeliveryOrder);
 router.post('/insertheaddetail', DeliveryOrderController.insertHeadDetail);
 router.put('/updatedeliveryorder', DeliveryOrderController.UpdateDeliveryOrder);
 router.delete('/deletedeliveryorder', DeliveryOrderController.deleteDeliveryOrder);
-router.post('/insertmultiple', DeliveryOrderController.insertHeadDetailMultiple);
 
 //DoDetail Route
 //  router.post('/insert', headDetailController.insertHeadDetail);
@@ -29,9 +28,15 @@ router.post('/insertmultiple', DeliveryOrderController.insertHeadDetailMultiple)
 
 
  //headdodetailController
- router.get('/getcombinedata', HeadDoDetailController.getCombinedData);
- router.get('/getdata', HeadDoDetailController.getOne);
-router.post('/loaddatado', HeadDoDetailController.postData);
-router.put('/updatehead', HeadDoDetailController.updateHeadData);
+//  router.get('/getcombinedata', HeadDoDetailController.getCombinedData);
+//  router.get('/getone', HeadDoDetailController.getOne);
+// router.post('/insertheaddeatil', HeadDoDetailController.postData);
+// router.put('/updatehead', HeadDoDetailController.updateHeadData);
+
+//SugarPurchaseControllers
+router.get('/sugargetdata', SugarPurchaseController.getCombinedData);
+router.get('/sugarone', SugarPurchaseController.getOne);
+router.post('/insertsugarpurchase', SugarPurchaseController.InsertSugarPurchase);
+router.put('/updatesugarpurchase', SugarPurchaseController.UpdateSugarPurchase);
 
 module.exports = router;
