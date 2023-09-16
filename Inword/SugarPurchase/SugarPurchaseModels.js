@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
-const Head = sequelize.define(
+const sequelize = require("../../config/database");
+const SugarPurchaseHead = sequelize.define(
   "nt_1_SugarPurchase",
   {
     doc_no: {
@@ -215,7 +215,7 @@ const Head = sequelize.define(
  
 );
 
-const Detail = sequelize.define('nt_1_sugarpurchasedetails', {
+const SugarPurchaseDetail = sequelize.define('nt_1_sugarpurchasedetails', {
     doc_no:{
      type:DataTypes.INTEGER,
      //allowNull:true,
@@ -298,9 +298,9 @@ const Detail = sequelize.define('nt_1_sugarpurchasedetails', {
     timestamps:false
     })
 
-    Detail.belongsTo(Head, { foreignKey: 'purchaseid' });
+    SugarPurchaseDetail.belongsTo(SugarPurchaseHead, { foreignKey: 'purchaseid' });
 
-Detail.removeAttribute('id');
-Head.removeAttribute('id');
+    SugarPurchaseDetail.removeAttribute('id');
+SugarPurchaseHead.removeAttribute('id');
 
-module.exports = {Head,Detail};
+module.exports = {SugarPurchaseHead,SugarPurchaseDetail};

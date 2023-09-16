@@ -1,9 +1,10 @@
 const express = require('express');
 const GroupMasterControllers = require('../Master/Group Master/FinicialGroupMasterController');
 const DeliveryOrderController = require('../SugarRelated/Delivery Order/DeliverOrderController');
-//const headDetailController = require('../HeadDetail/HeadDetailController');
+const headDetailController = require('../HeadDetail/HeadDetailController');
 const HeadDoDetailController =require("../HeadDetail/HeadDoDetailController");
-const SugarPurchaseController = require('../Inword/SugarPurchase/SugarPurchaseController')
+const SugarPurchaseController = require('../Inword/SugarPurchase/SugarPurchaseController');
+const SugarSalesRoutes = require("../Outword/SugarSalesController")
 
 
 const router = express.Router();
@@ -28,15 +29,22 @@ router.delete('/deletedeliveryorder', DeliveryOrderController.deleteDeliveryOrde
 
 
  //headdodetailController
-//  router.get('/getcombinedata', HeadDoDetailController.getCombinedData);
-//  router.get('/getone', HeadDoDetailController.getOne);
-// router.post('/insertheaddeatil', HeadDoDetailController.postData);
-// router.put('/updatehead', HeadDoDetailController.updateHeadData);
+ router.get('/getcombinedata', HeadDoDetailController.getCombinedData);
+ router.get('/getone', HeadDoDetailController.getOne);
+router.post('/insertheaddeatil', HeadDoDetailController.postData);
+router.put('/updatehead', HeadDoDetailController.updateHeadData);
 
 //SugarPurchaseControllers
 router.get('/sugargetdata', SugarPurchaseController.getCombinedData);
 router.get('/sugarone', SugarPurchaseController.getOne);
 router.post('/insertsugarpurchase', SugarPurchaseController.InsertSugarPurchase);
 router.put('/updatesugarpurchase', SugarPurchaseController.UpdateSugarPurchase);
+
+
+//SugarSalesController
+router.get('/sugarsales', SugarSalesRoutes.getCombinedData);
+router.get('/sugarsalesone', SugarSalesRoutes.getOne);
+router.post('/insertsugarsales', SugarSalesRoutes.InsertSugarSales);
+router.put('/updatesugarsales', SugarSalesRoutes.UpdateSugarPurchase);
 
 module.exports = router;
