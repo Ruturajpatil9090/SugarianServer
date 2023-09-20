@@ -1,12 +1,12 @@
-const { Head, Detail } = require("./SugarPurchaseModels");
+const { SugarPurchaseHead, SugarPurchaseDetail } = require("./SugarPurchaseModels");
 const sequelize = require("../../config/database");
 const SugarPurchaseController = {
   //get data into both the tables in head and detail
   getCombinedData: async (req, res) => {
     const { purchaseid } = req.query;
     try {
-      const DataDoDetail = await Detail.findAll({ where: { purchaseid } });
-      const DataHead = await Head.findAll({ where: { purchaseid } });
+      const DataDoDetail = await SugarPurchaseDetail.findAll({ where: { purchaseid } });
+      const DataHead = await SugarPurchaseHead.findAll({ where: { purchaseid } });
 
       const combinedData = {
         headData: DataHead,
@@ -24,7 +24,7 @@ const SugarPurchaseController = {
   getOne: async (req, res) => {
     const { purchaseid } = req.query;
     try {
-      const HeadData = await Head.findAll({ where: { purchaseid } });
+      const HeadData = await SugarPurchaseHead.findAll({ where: { purchaseid } });
       res.json(HeadData);
       console.log(purchaseid);
     } catch (error) {
@@ -42,7 +42,15 @@ const SugarPurchaseController = {
     try {
       const { headData, detailData } = req.body;
       
-      const createdHead = await Head.create(headData, { transaction });
+      let maxDocNo = await SugarPurchaseHead.max('doc_no') || 0;
+      const newDocNo = maxDocNo + 1;
+
+      headData.doc_no = newDocNo;
+      detailData.forEach(item => {
+          item.doc_no = newDocNo;
+      });
+      
+      const createdHead = await SugarPurchaseHead.create(headData, { transaction });
 
       const addedDetails = [];
       const updatedDetails = [];
@@ -63,20 +71,20 @@ const SugarPurchaseController = {
         //Add Details
         createdDetails = await Promise.all(
           addedDetails.map(async (item) => {
-            return await Detail.create(item, { transaction });
+            return await SugarPurchaseDetail.create(item, { transaction });
           })
         );
 
         //Update Details
         for (const item of updatedDetails) {
-          await Detail.update(item, {
+          await SugarPurchaseDetail.update(item, {
             where: { purchaseid: item.purchaseid },
             transaction,
           });
         }
 
         // Delete details
-        await Detail.destroy({
+        await SugarPurchaseDetail.destroy({
           where: { purchaseid: deletedDetails },
           transaction,
         });
@@ -110,7 +118,7 @@ const SugarPurchaseController = {
     try {
       const { headData, detailData } = req.body;
       const { purchaseid } = req.query;
-      const updatedHead = await Head.update(
+      const updatedHead = await SugarPurchaseHead.update(
         headData,
         {
           where: {
@@ -144,14 +152,14 @@ const SugarPurchaseController = {
       for (const item of updatedDetails) {
         const purchasedetailid = item.purchasedetailid;
         delete item.purchasedetailid;
-        await Detail.update(item, {
+        await SugarPurchaseDetail.update(item, {
           where: { purchasedetailid: purchasedetailid },
           transaction: transaction,
         });
       }
 
       // Delete details
-      await Detail.destroy({
+      await SugarPurchaseDetail.destroy({
         where: { purchasedetailid: deletedDetails },
         transaction: transaction,
       });

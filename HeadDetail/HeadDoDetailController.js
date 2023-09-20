@@ -43,6 +43,7 @@ const HeadDetailController = {
 
     try {
       const { headData, detailData, PurcHead, PurcDetail } = req.body;
+      
       const createdHead = await Head.create(headData, { transaction });
 
       const addedDetails = [];
@@ -87,6 +88,15 @@ const HeadDetailController = {
           item.TCS_Rate = createdHead.TCS_Rate;
           item.TDS_Rate = createdHead.PurchaseTDSRate;
           item.subTotal = createdHead.PurchaseRate * createdHead.quantal;
+          item.LESS_FRT_RATE=0;
+          item.freight=0;
+          item.cash_advance=0;
+          item.bank_commission=0;
+          item.OTHER_AMT=0;
+          item.Due_Days=1;
+
+
+
 
           // Assuming 'someIdentifier' is the unique identifier to match the items
           const matchingDetail = detailData.find(

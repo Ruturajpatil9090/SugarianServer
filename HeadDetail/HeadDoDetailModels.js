@@ -1,831 +1,637 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
 
-const Head = sequelize.define('nt_1_deliveryorder', {
-  tran_type: {
-    type: DataTypes.STRING(2),
-    //allowNull: true,
-},
-doc_no: {
-    type: DataTypes.INTEGER,
-    //allowNull: false,
-},
-desp_type: {
-    type: DataTypes.STRING(2),
-    //allowNull: true,
-},
-doc_date: {
-    type: DataTypes.DATE,
-    //allowNull: true,
-},
-mill_code: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-grade: {
-    type: DataTypes.STRING(50),
-    //allowNull: true,
-},
-quantal: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-packing: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-bags: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-mill_rate: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-sale_rate: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Tender_Commission: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-diff_rate: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-diff_amount: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-amount: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-DO: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-voucher_by: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-broker: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-company_code: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-Year_Code: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-Branch_Code: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-purc_no: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-purc: {
-    type: DataTypes.STRING(10),
-    //allowNull: true,
-},
-purc_order: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-purc_type: {
-    type: DataTypes.STRING(50),
-    //allowNull: true,
-},
-truck_no: {
-    type: DataTypes.STRING(20),
-    //allowNull: true,
-},
-transport: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-less: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-less_amount: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-final_amout: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-vasuli: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-narration1: {
-    type: DataTypes.STRING(500),
-    //allowNull: true,
-},
-narration2: {
-    type: DataTypes.STRING(500),
-    //allowNull: true,
-},
-narration3: {
-    type: DataTypes.STRING(1073741823),
-    //allowNull: true,
-},
-narration4: {
-    type: DataTypes.STRING(500),
-    //allowNull: true,
-},
-narration5: {
-    type: DataTypes.STRING(500),
-    //allowNull: true,
-},
-excise_rate: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-memo_no: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-freight: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-adv_freight1: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-driver_no: {
-    type: DataTypes.STRING(255),
-    //allowNull: true,
-},
-driver_Name: {
-    type: DataTypes.STRING(255),
-    //allowNull: true,
-},
-voucher_no: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-voucher_type: {
-    type: DataTypes.STRING(2),
-    //allowNull: true,
-},
-GETPASSCODE: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-tender_Remark: {
-    type: DataTypes.STRING(1073741823),
-    //allowNull: true,
-},
-vasuli_rate: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-vasuli_amount: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-to_vasuli: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-naka_delivery: {
-    type: DataTypes.CHAR(1),
-    //allowNull: true,
-},
-send_sms: {
-    type: DataTypes.CHAR(1),
-    //allowNull: true,
-},
-Itag: {
-    type: DataTypes.CHAR(1),
-    //allowNull: true,
-},
-Ac_Code: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-FreightPerQtl: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Freight_Amount: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Freight_RateMM: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Freight_AmountMM: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Memo_Advance: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Paid_Rate1: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Paid_Amount1: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Paid_Narration1: {
-    type: DataTypes.STRING(50),
-    //allowNull: true,
-},
-Paid_Rate2: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Paid_Amount2: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Paid_Narration2: {
-    type: DataTypes.STRING(50),
-    //allowNull: true,
-},
-Paid_Rate3: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Paid_Amount3: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Paid_Narration3: {
-    type: DataTypes.STRING(50),
-    //allowNull: true,
-},
-MobileNo: {
-    type: DataTypes.STRING(50),
-    //allowNull: true,
-},
-Created_By: {
-    type: DataTypes.STRING(255),
-    //allowNull: true,
-},
-Modified_By: {
-    type: DataTypes.STRING(255),
-    //allowNull: true,
-},
-UTR_No: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-UTR_Year_Code: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-Carporate_Sale_No: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-Carporate_Sale_Year_Code: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-Delivery_Type: {
-    type: DataTypes.STRING(5),
-    //allowNull: true,
-},
-WhoseFrieght: {
-    type: DataTypes.STRING(2),
-    //allowNull: true,
-},
-SB_No: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-Invoice_No: {
-    type: DataTypes.STRING(50),
-    //allowNull: true,
-},
-vasuli_rate1: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-vasuli_amount1: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Party_Commission_Rate: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-MM_CC: {
-    type: DataTypes.STRING(6),
-    //allowNull: true,
-},
-MM_Rate: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Voucher_Brokrage: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Voucher_Service_Charge: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Voucher_RateDiffRate: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Voucher_RateDiffAmt: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Voucher_BankCommRate: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Voucher_BankCommAmt: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Voucher_Interest: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Voucher_TransportAmt: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Voucher_OtherExpenses: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-CheckPost: {
-    type: DataTypes.STRING(100),
-    //allowNull: true,
-},
-SaleBillTo: {
-    type: DataTypes.STRING(15),
-    //allowNull: true,
-},
-Pan_No: {
-    type: DataTypes.STRING(50),
-    //allowNull: true,
-},
-Vasuli_Ac: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-LoadingSms: {
-    type: DataTypes.CHAR(1),
-    //allowNull: true,
-},
-GstRateCode: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-GetpassGstStateCode: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-VoucherbyGstStateCode: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-SalebilltoGstStateCode: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-GstAmtOnMR: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-GstAmtOnSR: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-GstExlSR: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-GstExlMR: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-MillGSTStateCode: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-TransportGSTStateCode: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-EWay_Bill_No: {
-    type: DataTypes.STRING(50),
-    //allowNull: true,
-},
-Distance: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-EWayBillChk: {
-    type: DataTypes.CHAR(1),
-    //allowNull: true,
-},
-MillInvoiceNo: {
-    type: DataTypes.STRING(1073741823),
-    //allowNull: true,
-},
-Purchase_Date: {
-    type: DataTypes.DATE,
-    //allowNull: true,
-},
-doid: {
-    type: DataTypes.INTEGER,
-    //allowNull: false,
-},
-mc: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-gp: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-st: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-sb: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-tc: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-itemcode: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-cs: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-ic: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-tenderdetailid: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-bk: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-docd: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-vb: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-va: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-carporate_ac: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-ca: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-mill_inv_date: {
-    type: DataTypes.DATE,
-    //allowNull: true,
-},
-mill_rcv: {
-    type: DataTypes.CHAR(1),
-    //allowNull: true,
-},
-saleid: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-MillEwayBill: {
-    type: DataTypes.STRING(250),
-    //allowNull: true,
-},
-TCS_Rate: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Sale_TCS_Rate: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-Mill_AmtWO_TCS: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-doidnew: {
-    type: DataTypes.INTEGER,
-    //allowNull: false,
-},
-newsbno: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-newsbdate: {
-    type: DataTypes.DATE,
-    //allowNull: true,
-},
-einvoiceno: {
-    type: DataTypes.STRING(500),
-    //allowNull: true,
-},
-ackno: {
-    type: DataTypes.STRING(500),
-    //allowNull: true,
-},
-commisionid: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-brandcode: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-Cash_diff: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-CashDiffAc: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-TDSAc: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-CashDiffAcId: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-TDSAcId: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-TDSRate: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-TDSAmt: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-TDSCut: {
-    type: DataTypes.CHAR(1),
-    //allowNull: true,
-},
-tenderid: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-MemoGSTRate: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-RCMCGSTAmt: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-RCMSGSTAmt: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-RCMIGSTAmt: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-RCMNumber: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-EwayBillValidDate: {
-    type: DataTypes.DATE,
-    //allowNull: true,
-},
-SaleTDSRate: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-PurchaseTDSRate: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-PurchaseRate: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-SBNarration: {
-    type: DataTypes.STRING(500),
-    //allowNull: true,
-},
-MailSend: {
-    type: DataTypes.CHAR(1),
-    //allowNull: true,
-},
-ISEInvoice: {
-    type: DataTypes.CHAR(1),
-    //allowNull: true,
-},
-IsPayment: {
-    type: DataTypes.CHAR(1),
-    //allowNull: true,
-},
-Do_DATE: {
-    type: DataTypes.DATE,
-    //allowNull: true,
-},
-Insured: {
-    type: DataTypes.CHAR(1),
-    //allowNull: true,
-},
-vehicle_reached: {
-    type: DataTypes.CHAR(1),
-    //allowNull: true,
-},
-reached_date: {
-    type: DataTypes.DATE,
-    //allowNull: true,
-},
-Insurance: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-ic1: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-grade1: {
-    type: DataTypes.STRING(50),
-    //allowNull: true,
-},
-quantal1: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-packing1: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-bags1: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-mill_rate1: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-sale_rate1: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-purc_no1: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-purc_order1: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-itemcode1: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-PurchaseRate1: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-mill_amount1: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-mill_amountTCS1: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-tenderdetailid1: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-GT_Remark: {
-    type: DataTypes.STRING(100),
-    //allowNull: true,
-},
-SB_Other_Amount: {
-    type: DataTypes.DECIMAL,
-    //allowNull: true,
-},
-}, {
-  timestamps: false,
-  freezeTableName: true, 
-});  
-const Detail = sequelize.define('nt_1_dodetails', {
-  doc_no: {
-    type: DataTypes.INTEGER,
-},
-detail_Id: {
-    type: DataTypes.INTEGER,
-},
-ddType: {
-    type: DataTypes.STRING(1),
-},
-Bank_Code: {
-    type: DataTypes.INTEGER,
-    
-},
-Narration: {
-    type: DataTypes.STRING(50),
-    
-},
-Amount: {
-    type: DataTypes.DECIMAL(18,2),
-    //allowNull: true,
-},
-Company_Code: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-Year_Code: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-Branch_Code: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-UTR_NO: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-DO_No: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-UtrYearCode: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-LTNo: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-doid: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-dodetailid: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-bc: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-utrdetailid: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-UtrCompanyCode: {
-    type: DataTypes.INTEGER,
-    //allowNull: true,
-},
-}, {
-  timestamps: false, 
-  freezeTableName: true, 
-});
+const Head = sequelize.define(
+  "nt_1_deliveryorder",
+  {
+    tran_type: {
+      type: DataTypes.STRING(2),
+    },
+    doc_no: {
+      type: DataTypes.INTEGER,
+    },
+    desp_type: {
+      type: DataTypes.STRING(2),
+    },
+    doc_date: {
+      type: DataTypes.DATE,
+    },
+    mill_code: {
+      type: DataTypes.INTEGER,
+    },
+    grade: {
+      type: DataTypes.STRING(50),
+    },
+    quantal: {
+      type: DataTypes.DECIMAL,
+    },
+    packing: {
+      type: DataTypes.INTEGER,
+    },
+    bags: {
+      type: DataTypes.INTEGER,
+    },
+    mill_rate: {
+      type: DataTypes.DECIMAL,
+    },
+    sale_rate: {
+      type: DataTypes.DECIMAL,
+    },
+    Tender_Commission: {
+      type: DataTypes.DECIMAL,
+    },
+    diff_rate: {
+      type: DataTypes.DECIMAL,
+    },
+    diff_amount: {
+      type: DataTypes.DECIMAL,
+    },
+    amount: {
+      type: DataTypes.DECIMAL,
+    },
+    DO: {
+      type: DataTypes.INTEGER,
+    },
+    voucher_by: {
+      type: DataTypes.INTEGER,
+    },
+    broker: {
+      type: DataTypes.INTEGER,
+    },
+    company_code: {
+      type: DataTypes.INTEGER,
+    },
+    Year_Code: {
+      type: DataTypes.INTEGER,
+    },
+    Branch_Code: {
+      type: DataTypes.INTEGER,
+    },
+    purc_no: {
+      type: DataTypes.INTEGER,
+    },
+    purc: {
+      type: DataTypes.STRING(10),
+    },
+    purc_order: {
+      type: DataTypes.INTEGER,
+    },
+    purc_type: {
+      type: DataTypes.STRING(50),
+    },
+    truck_no: {
+      type: DataTypes.STRING(20),
+    },
+    transport: {
+      type: DataTypes.INTEGER,
+    },
+    less: {
+      type: DataTypes.DECIMAL,
+    },
+    less_amount: {
+      type: DataTypes.DECIMAL,
+    },
+    final_amout: {
+      type: DataTypes.DECIMAL,
+    },
+    vasuli: {
+      type: DataTypes.DECIMAL,
+    },
+    narration1: {
+      type: DataTypes.STRING(500),
+    },
+    narration2: {
+      type: DataTypes.STRING(500),
+    },
+    narration3: {
+      type: DataTypes.STRING(1073741823),
+    },
+    narration4: {
+      type: DataTypes.STRING(500),
+    },
+    narration5: {
+      type: DataTypes.STRING(500),
+    },
+    excise_rate: {
+      type: DataTypes.DECIMAL,
+    },
+    memo_no: {
+      type: DataTypes.INTEGER,
+    },
+    freight: {
+      type: DataTypes.DECIMAL,
+    },
+    adv_freight1: {
+      type: DataTypes.DECIMAL,
+    },
+    driver_no: {
+      type: DataTypes.STRING(255),
+    },
+    driver_Name: {
+      type: DataTypes.STRING(255),
+    },
+    voucher_no: {
+      type: DataTypes.INTEGER,
+    },
+    voucher_type: {
+      type: DataTypes.STRING(2),
+    },
+    GETPASSCODE: {
+      type: DataTypes.INTEGER,
+    },
+    tender_Remark: {
+      type: DataTypes.STRING(1073741823),
+    },
+    vasuli_rate: {
+      type: DataTypes.DECIMAL,
+    },
+    vasuli_amount: {
+      type: DataTypes.DECIMAL,
+    },
+    to_vasuli: {
+      type: DataTypes.INTEGER,
+    },
+    naka_delivery: {
+      type: DataTypes.CHAR(1),
+    },
+    send_sms: {
+      type: DataTypes.CHAR(1),
+    },
+    Itag: {
+      type: DataTypes.CHAR(1),
+    },
+    Ac_Code: {
+      type: DataTypes.INTEGER,
+    },
+    FreightPerQtl: {
+      type: DataTypes.DECIMAL,
+    },
+    Freight_Amount: {
+      type: DataTypes.DECIMAL,
+    },
+    Freight_RateMM: {
+      type: DataTypes.DECIMAL,
+    },
+    Freight_AmountMM: {
+      type: DataTypes.DECIMAL,
+    },
+    Memo_Advance: {
+      type: DataTypes.DECIMAL,
+    },
+    Paid_Rate1: {
+      type: DataTypes.DECIMAL,
+    },
+    Paid_Amount1: {
+      type: DataTypes.DECIMAL,
+    },
+    Paid_Narration1: {
+      type: DataTypes.STRING(50),
+    },
+    Paid_Rate2: {
+      type: DataTypes.DECIMAL,
+    },
+    Paid_Amount2: {
+      type: DataTypes.DECIMAL,
+    },
+    Paid_Narration2: {
+      type: DataTypes.STRING(50),
+    },
+    Paid_Rate3: {
+      type: DataTypes.DECIMAL,
+    },
+    Paid_Amount3: {
+      type: DataTypes.DECIMAL,
+    },
+    Paid_Narration3: {
+      type: DataTypes.STRING(50),
+    },
+    MobileNo: {
+      type: DataTypes.STRING(50),
+    },
+    Created_By: {
+      type: DataTypes.STRING(255),
+    },
+    Modified_By: {
+      type: DataTypes.STRING(255),
+    },
+    UTR_No: {
+      type: DataTypes.INTEGER,
+    },
+    UTR_Year_Code: {
+      type: DataTypes.INTEGER,
+    },
+    Carporate_Sale_No: {
+      type: DataTypes.INTEGER,
+    },
+    Carporate_Sale_Year_Code: {
+      type: DataTypes.INTEGER,
+    },
+    Delivery_Type: {
+      type: DataTypes.STRING(5),
+    },
+    WhoseFrieght: {
+      type: DataTypes.STRING(2),
+    },
+    SB_No: {
+      type: DataTypes.INTEGER,
+    },
+    Invoice_No: {
+      type: DataTypes.STRING(50),
+    },
+    vasuli_rate1: {
+      type: DataTypes.DECIMAL,
+    },
+    vasuli_amount1: {
+      type: DataTypes.DECIMAL,
+    },
+    Party_Commission_Rate: {
+      type: DataTypes.DECIMAL,
+    },
+    MM_CC: {
+      type: DataTypes.STRING(6),
+    },
+    MM_Rate: {
+      type: DataTypes.DECIMAL,
+    },
+    Voucher_Brokrage: {
+      type: DataTypes.DECIMAL,
+    },
+    Voucher_Service_Charge: {
+      type: DataTypes.DECIMAL,
+    },
+    Voucher_RateDiffRate: {
+      type: DataTypes.DECIMAL,
+    },
+    Voucher_RateDiffAmt: {
+      type: DataTypes.DECIMAL,
+    },
+    Voucher_BankCommRate: {
+      type: DataTypes.DECIMAL,
+    },
+    Voucher_BankCommAmt: {
+      type: DataTypes.DECIMAL,
+    },
+    Voucher_Interest: {
+      type: DataTypes.DECIMAL,
+    },
+    Voucher_TransportAmt: {
+      type: DataTypes.DECIMAL,
+    },
+    Voucher_OtherExpenses: {
+      type: DataTypes.DECIMAL,
+    },
+    CheckPost: {
+      type: DataTypes.STRING(100),
+    },
+    SaleBillTo: {
+      type: DataTypes.STRING(15),
+    },
+    Pan_No: {
+      type: DataTypes.STRING(50),
+    },
+    Vasuli_Ac: {
+      type: DataTypes.INTEGER,
+    },
+    LoadingSms: {
+      type: DataTypes.CHAR(1),
+    },
+    GstRateCode: {
+      type: DataTypes.INTEGER,
+    },
+    GetpassGstStateCode: {
+      type: DataTypes.INTEGER,
+    },
+    VoucherbyGstStateCode: {
+      type: DataTypes.INTEGER,
+    },
+    SalebilltoGstStateCode: {
+      type: DataTypes.INTEGER,
+    },
+    GstAmtOnMR: {
+      type: DataTypes.DECIMAL,
+    },
+    GstAmtOnSR: {
+      type: DataTypes.DECIMAL,
+    },
+    GstExlSR: {
+      type: DataTypes.DECIMAL,
+    },
+    GstExlMR: {
+      type: DataTypes.DECIMAL,
+    },
+    MillGSTStateCode: {
+      type: DataTypes.INTEGER,
+    },
+    TransportGSTStateCode: {
+      type: DataTypes.INTEGER,
+    },
+    EWay_Bill_No: {
+      type: DataTypes.STRING(50),
+    },
+    Distance: {
+      type: DataTypes.DECIMAL,
+    },
+    EWayBillChk: {
+      type: DataTypes.CHAR(1),
+    },
+    MillInvoiceNo: {
+      type: DataTypes.STRING(1073741823),
+    },
+    Purchase_Date: {
+      type: DataTypes.DATE,
+    },
+    doid: {
+      type: DataTypes.INTEGER,
+    },
+    mc: {
+      type: DataTypes.INTEGER,
+    },
+    gp: {
+      type: DataTypes.INTEGER,
+    },
+    st: {
+      type: DataTypes.INTEGER,
+    },
+    sb: {
+      type: DataTypes.INTEGER,
+    },
+    tc: {
+      type: DataTypes.INTEGER,
+    },
+    itemcode: {
+      type: DataTypes.INTEGER,
+    },
+    cs: {
+      type: DataTypes.INTEGER,
+    },
+    ic: {
+      type: DataTypes.INTEGER,
+    },
+    tenderdetailid: {
+      type: DataTypes.INTEGER,
+    },
+    bk: {
+      type: DataTypes.INTEGER,
+    },
+    docd: {
+      type: DataTypes.INTEGER,
+    },
+    vb: {
+      type: DataTypes.INTEGER,
+    },
+    va: {
+      type: DataTypes.INTEGER,
+    },
+    carporate_ac: {
+      type: DataTypes.INTEGER,
+    },
+    ca: {
+      type: DataTypes.INTEGER,
+    },
+    mill_inv_date: {
+      type: DataTypes.DATE,
+    },
+    mill_rcv: {
+      type: DataTypes.CHAR(1),
+    },
+    saleid: {
+      type: DataTypes.INTEGER,
+    },
+    MillEwayBill: {
+      type: DataTypes.STRING(250),
+    },
+    TCS_Rate: {
+      type: DataTypes.DECIMAL,
+    },
+    Sale_TCS_Rate: {
+      type: DataTypes.DECIMAL,
+    },
+    Mill_AmtWO_TCS: {
+      type: DataTypes.DECIMAL,
+    },
+    doidnew: {
+      type: DataTypes.INTEGER,
+    },
+    newsbno: {
+      type: DataTypes.DECIMAL,
+    },
+    newsbdate: {
+      type: DataTypes.DATE,
+    },
+    einvoiceno: {
+      type: DataTypes.STRING(500),
+    },
+    ackno: {
+      type: DataTypes.STRING(500),
+    },
+    commisionid: {
+      type: DataTypes.INTEGER,
+    },
+    brandcode: {
+      type: DataTypes.INTEGER,
+    },
+    Cash_diff: {
+      type: DataTypes.DECIMAL,
+    },
+    CashDiffAc: {
+      type: DataTypes.INTEGER,
+    },
+    TDSAc: {
+      type: DataTypes.INTEGER,
+    },
+    CashDiffAcId: {
+      type: DataTypes.INTEGER,
+    },
+    TDSAcId: {
+      type: DataTypes.INTEGER,
+    },
+    TDSRate: {
+      type: DataTypes.DECIMAL,
+    },
+    TDSAmt: {
+      type: DataTypes.DECIMAL,
+    },
+    TDSCut: {
+      type: DataTypes.CHAR(1),
+    },
+    tenderid: {
+      type: DataTypes.INTEGER,
+    },
+    MemoGSTRate: {
+      type: DataTypes.INTEGER,
+    },
+    RCMCGSTAmt: {
+      type: DataTypes.DECIMAL,
+    },
+    RCMSGSTAmt: {
+      type: DataTypes.DECIMAL,
+    },
+    RCMIGSTAmt: {
+      type: DataTypes.DECIMAL,
+    },
+    RCMNumber: {
+      type: DataTypes.DECIMAL,
+    },
+    EwayBillValidDate: {
+      type: DataTypes.DATE,
+    },
+    SaleTDSRate: {
+      type: DataTypes.DECIMAL,
+    },
+    PurchaseTDSRate: {
+      type: DataTypes.DECIMAL,
+    },
+    PurchaseRate: {
+      type: DataTypes.DECIMAL,
+    },
+    SBNarration: {
+      type: DataTypes.STRING(500),
+    },
+    MailSend: {
+      type: DataTypes.CHAR(1),
+    },
+    ISEInvoice: {
+      type: DataTypes.CHAR(1),
+    },
+    IsPayment: {
+      type: DataTypes.CHAR(1),
+    },
+    Do_DATE: {
+      type: DataTypes.DATE,
+    },
+    Insured: {
+      type: DataTypes.CHAR(1),
+    },
+    vehicle_reached: {
+      type: DataTypes.CHAR(1),
+    },
+    reached_date: {
+      type: DataTypes.DATE,
+    },
+    Insurance: {
+      type: DataTypes.DECIMAL,
+    },
+    ic1: {
+      type: DataTypes.INTEGER,
+    },
+    grade1: {
+      type: DataTypes.STRING(50),
+    },
+    quantal1: {
+      type: DataTypes.DECIMAL,
+    },
+    packing1: {
+      type: DataTypes.INTEGER,
+    },
+    bags1: {
+      type: DataTypes.INTEGER,
+    },
+    mill_rate1: {
+      type: DataTypes.DECIMAL,
+    },
+    sale_rate1: {
+      type: DataTypes.DECIMAL,
+    },
+    purc_no1: {
+      type: DataTypes.INTEGER,
+    },
+    purc_order1: {
+      type: DataTypes.INTEGER,
+    },
+    itemcode1: {
+      type: DataTypes.INTEGER,
+    },
+    PurchaseRate1: {
+      type: DataTypes.DECIMAL,
+    },
+    mill_amount1: {
+      type: DataTypes.DECIMAL,
+    },
+    mill_amountTCS1: {
+      type: DataTypes.DECIMAL,
+    },
+    tenderdetailid1: {
+      type: DataTypes.INTEGER,
+    },
+    GT_Remark: {
+      type: DataTypes.STRING(100),
+    },
+    SB_Other_Amount: {
+      type: DataTypes.DECIMAL,
+    },
+  },
+  {
+    timestamps: false,
+    freezeTableName: true,
+  }
+);
+const Detail = sequelize.define(
+  "nt_1_dodetails",
+  {
+    doc_no: {
+      type: DataTypes.INTEGER,
+    },
+    detail_Id: {
+      type: DataTypes.INTEGER,
+    },
+    ddType: {
+      type: DataTypes.STRING(1),
+    },
+    Bank_Code: {
+      type: DataTypes.INTEGER,
+    },
+    Narration: {
+      type: DataTypes.STRING(50),
+    },
+    Amount: {
+      type: DataTypes.DECIMAL(18, 2),
+    },
+    Company_Code: {
+      type: DataTypes.INTEGER,
+    },
+    Year_Code: {
+      type: DataTypes.INTEGER,
+    },
+    Branch_Code: {
+      type: DataTypes.INTEGER,
+    },
+    UTR_NO: {
+      type: DataTypes.INTEGER,
+    },
+    DO_No: {
+      type: DataTypes.INTEGER,
+    },
+    UtrYearCode: {
+      type: DataTypes.INTEGER,
+    },
+    LTNo: {
+      type: DataTypes.INTEGER,
+    },
+    doid: {
+      type: DataTypes.INTEGER,
+    },
+    dodetailid: {
+      type: DataTypes.INTEGER,
+    },
+    bc: {
+      type: DataTypes.INTEGER,
+    },
+    utrdetailid: {
+      type: DataTypes.INTEGER,
+    },
+    UtrCompanyCode: {
+      type: DataTypes.INTEGER,
+    },
+  },
+  {
+    timestamps: false,
+    freezeTableName: true,
+  }
+);
 // Define the association
 // Head.hasMany(Detail, { foreignKey: 'headId' });
-Detail.belongsTo(Head, { foreignKey: 'doid' });
+Detail.belongsTo(Head, { foreignKey: "doid" });
 
-Detail.removeAttribute('id');
-Head.removeAttribute('id');
+Detail.removeAttribute("id");
+Head.removeAttribute("id");
 module.exports = { Head, Detail };
-
-  

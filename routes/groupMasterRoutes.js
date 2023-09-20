@@ -1,10 +1,12 @@
 const express = require('express');
 const GroupMasterControllers = require('../Master/Group Master/FinicialGroupMasterController');
 const DeliveryOrderController = require('../SugarRelated/Delivery Order/DeliverOrderController');
-const headDetailController = require('../HeadDetail/HeadDetailController');
+// const headDetailController = require('../HeadDetail/HeadDetailController');
 const HeadDoDetailController =require("../HeadDetail/HeadDoDetailController");
 const SugarPurchaseController = require('../Inword/SugarPurchase/SugarPurchaseController');
-const SugarSalesRoutes = require("../Outword/SugarSalesController")
+const SugarSalesRoutes = require("../Outword/SugarSalesController");
+const TenderHeadDetailController = require('../BusinessRelated/TenderPurchase/TenderHeaddetailController')
+const UtrHeadDetailController = require("../BusinessRelated/UtrEntry/UtrHeadDetailController")
 
 
 const router = express.Router();
@@ -46,5 +48,18 @@ router.get('/sugarsales', SugarSalesRoutes.getCombinedData);
 router.get('/sugarsalesone', SugarSalesRoutes.getOne);
 router.post('/insertsugarsales', SugarSalesRoutes.InsertSugarSales);
 router.put('/updatesugarsales', SugarSalesRoutes.UpdateSugarPurchase);
+
+//Tender Head Detail Routes
+router.get('/getonedata', TenderHeadDetailController.getOne);
+router.get('/getalltender', TenderHeadDetailController.getCombinedData);
+router.post('/inserttender', TenderHeadDetailController.InsertTenderHeadDetail);
+router.put('/updatetender', TenderHeadDetailController.UpdateSugarPurchase);
+
+
+//Utr Head Detail Routes
+router.get('/getutrhead', UtrHeadDetailController.getOne);
+router.get('/getutrall', UtrHeadDetailController.getCombinedData);
+router.post('/insertutrheaddetail', UtrHeadDetailController.InsertUtrHeadDetail);
+router.put('/updateutr', UtrHeadDetailController.UpdateSugarPurchase);
 
 module.exports = router;

@@ -1,19 +1,19 @@
-const { SugarSalesHead, SugarSalesDetails} = require("./SugarSalesModels");
-const sequelize = require("../config/database");
-const SugarSalesController = {
+const { TenderHead, TenderDetails } = require("./TenderHeadDetailModels");
+const sequelize = require("../../config/database");
+const TenderHeadDetailController = {
   //get data into both the tables in head and detail
   getCombinedData: async (req, res) => {
-    const { saleid } = req.query;
+    const { tenderid } = req.query;
     try {
-      const DataSugarSalesDetails = await SugarSalesDetails.findAll({ where: { saleid } });
-      const DataSugarSalesHead= await SugarSalesHead.findAll({ where: { saleid } });
+      const DataTenderDetails = await TenderDetails.findAll({ where: { tenderid } });
+      const DataTenderHead = await TenderHead.findAll({ where: { tenderid } });
 
       const combinedData = {
-        headData: DataSugarSalesHead,
-        detailData: DataSugarSalesDetails,
+        headData: DataTenderHead,
+        detailData: DataTenderDetails,
       };
       res.json(combinedData);
-      console.log(saleid);
+      console.log(tenderid);
     } catch (error) {
       res.status(500).json({ error: "Internal server error", error });
       console.log(error);
@@ -22,11 +22,11 @@ const SugarSalesController = {
 
   //get single record from database
   getOne: async (req, res) => {
-    const { saleid } = req.query;
+    const { tenderid } = req.query;
     try {
-      const DataSugarSalesHead = await SugarSalesHead.findAll({ where: { saleid } });
-      res.json(DataSugarSalesHead);
-      console.log(saleid);
+      const DataTenderHead = await TenderHead.findAll({ where: { tenderid } });
+      res.json(DataTenderHead);
+      console.log(tenderid);
     } catch (error) {
       res.status(500).json({ error: "Internal server error", error });
       console.log(error);
@@ -35,14 +35,14 @@ const SugarSalesController = {
 
 
   //insert data into table
-  InsertSugarSales: async (req, res) => {
+  InsertTenderHeadDetail: async (req, res) => {
 
     const transaction = await sequelize.transaction();
 
     try {
       const { headData, detailData } = req.body;
       
-      const createdHead = await SugarSalesHead.create(headData, { transaction });
+      const createdHead = await TenderHead.create(headData, { transaction });
 
       const addedDetails = [];
       const updatedDetails = [];
@@ -51,35 +51,33 @@ const SugarSalesController = {
 
         for (const item of detailData) {
           if (item.rowaction === "add") {
-            item.saleid = createdHead.saleid;
+            item.tenderid = createdHead.tenderid;
             addedDetails.push(item);
           } else if (item.rowaction === "update") {
             updatedDetails.push(item);
           } else if (item.rowaction === "delete") {
-            deletedDetails.push(item.saledetailid);
+            deletedDetails.push(item.tenderdetailid);
           }
         }
 
         //Add Details
         createdDetails = await Promise.all(
           addedDetails.map(async (item) => {
-            return await SugarSalesDetails.create(item, { transaction });
+            return await TenderDetails.create(item, { transaction });
           })
         );
 
         //Update Details
         for (const item of updatedDetails) {
-            const saledetailid = item.saledetailid;
-            delete item.saledetailid;
-            await SugarSalesDetails.update(item, {
-              where: { saledetailid: saledetailid },
-              transaction: transaction,
-            });
+          await TenderDetails.update(item, {
+            where: { tenderdetailid: item.tenderdetailid },
+            transaction,
+          });
         }
 
         // Delete details
-        await SugarSalesDetails.destroy({
-          where: { saledetailid: deletedDetails },
+        await TenderDetails.destroy({
+          where: { tenderdetailid: deletedDetails },
           transaction,
         });
       
@@ -111,12 +109,12 @@ const SugarSalesController = {
 
     try {
       const { headData, detailData } = req.body;
-      const { saleid } = req.query;
-      const updatedHead = await SugarSalesHead.update(
+      const { tenderid } = req.query;
+      const updatedHead = await TenderHead.update(
         headData,
         {
           where: {
-            saleid,
+            tenderid,
           },
         },
         { transaction: transaction }
@@ -128,33 +126,33 @@ const SugarSalesController = {
 
       for (const item of detailData) {
         if (item.rowaction === "add") {
-          item.saleid = saleid;
+          item.tenderid = tenderid;
           addedDetails.push(item);
         } else if (item.rowaction === "update") {
           updatedDetails.push(item);
         } else if (item.rowaction === "delete") {
-          deletedDetails.push(item.saledetailid);
+          deletedDetails.push(item.tenderdetailid);
         }
       }
       //Add Details
       const createdDetails = await Promise.all(
         addedDetails.map(async (item) => {
-          return await SugarSalesDetails.create(item, { transaction: transaction });
+          return await TenderDetails.create(item, { transaction: transaction });
         })
       );
       //Update Details
       for (const item of updatedDetails) {
-        const saledetailid = item.saledetailid;
-        delete item.saledetailid;
-        await SugarSalesDetails.update(item, {
-          where: { saledetailid: saledetailid },
+        const tenderdetailid = item.tenderdetailid;
+        delete item.tenderdetailid;
+        await TenderDetails.update(item, {
+          where: { tenderdetailid: tenderdetailid },
           transaction: transaction,
         });
       }
 
       // Delete details
-      await SugarSalesDetails.destroy({
-        where: { saledetailid: deletedDetails },
+      await TenderDetails.destroy({
+        where: { tenderdetailid: deletedDetails },
         transaction: transaction,
       });
 
@@ -182,4 +180,4 @@ const SugarSalesController = {
 
 };
 
-module.exports = SugarSalesController;
+module.exports = TenderHeadDetailController;
