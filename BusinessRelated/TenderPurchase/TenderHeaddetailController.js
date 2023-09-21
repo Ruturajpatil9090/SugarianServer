@@ -3,22 +3,32 @@ const sequelize = require("../../config/database");
 const TenderHeadDetailController = {
   //get data into both the tables in head and detail
   getCombinedData: async (req, res) => {
-    const { tenderid } = req.query;
+   
     try {
-      const DataTenderDetails = await TenderDetails.findAll({ where: { tenderid } });
-      const DataTenderHead = await TenderHead.findAll({ where: { tenderid } });
+      const DataTenderDetails = await TenderDetails.findAll();
+      const DataTenderHead = await TenderHead.findAll();
 
       const combinedData = {
         headData: DataTenderHead,
         detailData: DataTenderDetails,
       };
       res.json(combinedData);
-      console.log(tenderid);
     } catch (error) {
       res.status(500).json({ error: "Internal server error", error });
       console.log(error);
     }
   },
+
+  getUtilityData: async (req, res) => {
+        try {
+          const groups = await sequelize.query('SELECT ROW_NUMBER() OVER ( order by Tender_No desc) AS RowNumber,dbo.nt_1_tender.Tender_No, CONVERT(varchar(10), dbo.nt_1_tender.Tender_Date, 103) AS Tender_Date, millto.Short_Name AS millshortname, dbo.nt_1_tender.Quantal, dbo.nt_1_tender.Grade, dbo.nt_1_tender.Mill_Rate, paymentto.Ac_Name_E AS paymenttoname, tenderdo.Ac_Name_E AS tenderdoname, dbo.nt_1_tender.season, broker.Ac_Name_E AS brokershortname, CONVERT(varchar(10), dbo.nt_1_tender.Lifting_Date, 103) AS Lifting_Date, dbo.nt_1_tender.tenderid FROM         dbo.nt_1_tender LEFT OUTER JOIN dbo.nt_1_accountmaster AS tenderdo ON dbo.nt_1_tender.td = tenderdo.accoid LEFT OUTER JOIN dbo.nt_1_accountmaster AS broker ON dbo.nt_1_tender.bk = broker.accoid LEFT OUTER JOIN dbo.nt_1_accountmaster AS paymentto ON dbo.nt_1_tender.pt = paymentto.accoid LEFT OUTER JOIN dbo.nt_1_accountmaster AS millto ON dbo.nt_1_tender.mc = millto.accoid where    dbo.nt_1_tender.Company_Code=1 and  dbo.nt_1_tender.Year_Code=3 order by Tender_no desc ', {
+            type: sequelize.QueryTypes.SELECT,
+          });
+          res.json(groups);
+        } catch (error) {
+          res.status(500).json({ error: 'Internal server error' });
+        }
+      },
 
   //get single record from database
   getOne: async (req, res) => {

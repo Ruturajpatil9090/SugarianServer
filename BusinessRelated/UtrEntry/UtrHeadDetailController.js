@@ -3,17 +3,17 @@ const sequelize = require("../../config/database");
 const UtrHeadDetailController = {
   //get data into both the tables in head and detail
   getCombinedData: async (req, res) => {
-    const { utrid } = req.query;
+    // const { utrid } = req.query;
     try {
-      const DataUtrDetails = await UtrDetails.findAll({ where: { utrid } });
-      const DataUtrHead = await UtrHead.findAll({ where: { utrid } });
+      const DataUtrDetails = await UtrDetails.findAll();
+      const DataUtrHead = await UtrHead.findAll();
 
       const combinedData = {
         headData: DataUtrHead,
         detailData: DataUtrDetails,
       };
       res.json(combinedData);
-      console.log(utrid);
+     
     } catch (error) {
       res.status(500).json({ error: "Internal server error", error });
       console.log(error);

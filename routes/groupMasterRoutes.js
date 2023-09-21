@@ -51,6 +51,7 @@ router.put('/updatesugarsales', SugarSalesRoutes.UpdateSugarPurchase);
 
 //Tender Head Detail Routes
 router.get('/getonedata', TenderHeadDetailController.getOne);
+router.get('/getutilitydata', TenderHeadDetailController.getUtilityData);
 router.get('/getalltender', TenderHeadDetailController.getCombinedData);
 router.post('/inserttender', TenderHeadDetailController.InsertTenderHeadDetail);
 router.put('/updatetender', TenderHeadDetailController.UpdateSugarPurchase);
