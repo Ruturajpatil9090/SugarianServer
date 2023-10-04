@@ -1,18 +1,42 @@
 const { TenderHead, TenderDetails } = require("./TenderHeadDetailModels");
 const sequelize = require("../../config/database");
+const { Sequelize, Op } = require('sequelize');
 const TenderHeadDetailController = {
   //get data into both the tables in head and detail
-  getCombinedData: async (req, res) => {
-   
+   getCombinedDataAll : async (req, res) => {
+    const { tenderid } = req.query;
+  
+    const t = await sequelize.transaction();
+  
     try {
-      const DataTenderDetails = await TenderDetails.findAll();
-      const DataTenderHead = await TenderHead.findAll();
-
+      const DataTenderDetails = await TenderDetails.findAll({
+        where: { tenderid },
+        transaction: t
+      });
+  
+      const DataTenderHead = await TenderHead.findAll({
+        where: { tenderid },
+        transaction: t
+      });
+  
       const combinedData = {
         headData: DataTenderHead,
         detailData: DataTenderDetails,
       };
+  
+      await t.commit();
       res.json(combinedData);
+    } catch (error) {
+      await t.rollback();
+      res.status(500).json({ error: "Internal server error", error: error.message });
+      console.error(error);
+    }
+  },
+
+  getCombinedData: async (req, res) => {
+    try {
+      const latestTenderNo = await TenderHead.max('Tender_No');
+      res.json({ latestTenderNo });
     } catch (error) {
       res.status(500).json({ error: "Internal server error", error });
       console.log(error);
@@ -110,7 +134,6 @@ const TenderHeadDetailController = {
         .json({ error: "Internal server error", message: error.message });
     }
   },
-
 
 
   //Update the data

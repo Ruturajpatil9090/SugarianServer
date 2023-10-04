@@ -6,7 +6,8 @@ const HeadDoDetailController =require("../HeadDetail/HeadDoDetailController");
 const SugarPurchaseController = require('../Inword/SugarPurchase/SugarPurchaseController');
 const SugarSalesRoutes = require("../Outword/SugarSalesController");
 const TenderHeadDetailController = require('../BusinessRelated/TenderPurchase/TenderHeaddetailController')
-const UtrHeadDetailController = require("../BusinessRelated/UtrEntry/UtrHeadDetailController")
+const UtrHeadDetailController = require("../BusinessRelated/UtrEntry/UtrHeadDetailController");
+const AccountMasterHelperController = require("../Helper/AccountMasterHelperController")
 
 
 const router = express.Router();
@@ -53,6 +54,7 @@ router.put('/updatesugarsales', SugarSalesRoutes.UpdateSugarPurchase);
 router.get('/getonedata', TenderHeadDetailController.getOne);
 router.get('/getutilitydata', TenderHeadDetailController.getUtilityData);
 router.get('/getalltender', TenderHeadDetailController.getCombinedData);
+router.get('/getalltenderdata', TenderHeadDetailController.getCombinedDataAll);
 router.post('/inserttender', TenderHeadDetailController.InsertTenderHeadDetail);
 router.put('/updatetender', TenderHeadDetailController.UpdateSugarPurchase);
 
@@ -62,5 +64,9 @@ router.get('/getutrhead', UtrHeadDetailController.getOne);
 router.get('/getutrall', UtrHeadDetailController.getCombinedData);
 router.post('/insertutrheaddetail', UtrHeadDetailController.InsertUtrHeadDetail);
 router.put('/updateutr', UtrHeadDetailController.UpdateSugarPurchase);
+
+//Account master helper
+router.get('/gethelper', AccountMasterHelperController.getData);
+router.get('/gethelperall', AccountMasterHelperController.getDataAll);
 
 module.exports = router;

@@ -109,8 +109,6 @@ const SugarPurchaseController = {
     }
   },
 
-
-
   //Update the data
   UpdateSugarPurchase: async (req, res) => {
     const transaction = await sequelize.transaction();
